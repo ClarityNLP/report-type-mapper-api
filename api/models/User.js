@@ -6,15 +6,6 @@ module.exports = {
 
   attributes: {
 
-    // id: {
-    //     type: 'string',
-    //     primaryKey: true,
-    //     defaultsTo: function (){ return uuid.v4(); },
-    //     unique: true,
-    //     index: true,
-    //     uuidv4: true
-    // },
-
     firstName: {
       type: 'string',
       maxLength: 100
@@ -27,7 +18,8 @@ module.exports = {
 
     email: {
       type: 'string',
-      maxLength: 100
+      maxLength: 100,
+      unique: true
       // maxLength: 200
     },
 
@@ -53,6 +45,10 @@ module.exports = {
 
     institute: {
       model: 'institute'
+    },
+
+    apiToken: {
+      type: 'string'
     }
 
     // customToJSON: function() {

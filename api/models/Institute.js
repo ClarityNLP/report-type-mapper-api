@@ -4,7 +4,8 @@ module.exports = {
 
     name: {
       type: 'string',
-      maxLength: 300
+      maxLength: 300,
+      unique: true
     },
 
     isDeleted: {

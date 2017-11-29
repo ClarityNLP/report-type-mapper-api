@@ -16,9 +16,12 @@ module.exports = {
       via: 'list'
     },
 
+    numOfReportTypes: {
+      type: 'number'
+    },
+
     institute: {
       model: 'institute'
     }
   }
-
 }

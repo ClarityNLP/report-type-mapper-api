@@ -22,7 +22,6 @@ module.exports = {
           return res.send(500);
         }
         if (passwordMatch) {
-          console.log('match...');
           req.session.userId = user.id;
           req.session.anonymous = false;
           req.session.roles = user.roles;
@@ -34,6 +33,14 @@ module.exports = {
         }
       });
     });
+  },
+
+  logout: function(req,res) {
+    req.session.userId = null;
+    req.session.anonymous = true;
+    req.session.roles = null;
+    req.session.institute = null;
+    return res.send(200);
   },
 
   me: function(req,res) {

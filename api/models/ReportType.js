@@ -3,8 +3,7 @@ module.exports = {
   attributes: {
 
     name: {
-      type: 'string',
-      maxLength: 300
+      type: 'string'
     },
 
     isDeleted: {
@@ -16,7 +15,8 @@ module.exports = {
     },
 
     tags: {
-      type: 'json'
+      type: 'json',
+      defaultsTo: []
     }
   }
 

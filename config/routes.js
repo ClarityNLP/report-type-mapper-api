@@ -41,11 +41,26 @@ module.exports.routes = {
   'get /institutes/:instituteId/lists': 'ListController.all',
   'get /institutes/:instituteId/lists/:listId': 'ListController.show',
   'get /institutes/:instituteId/lists/:listId/reportTypes': 'ListController.getReportTypes',
+  'post /institutes/:instituteId/lists/:listId/addTag': 'ListController.addTag',
+  'post /institutes/:instituteId/lists/:listId/removeTag': 'ListController.removeTag',
   // 'post /insitutes/:instituteId/lists/:listId/reportTypes': 'ListController.uploadReportTypes',
   'post /insitutes/:instituteId/lists': 'ListController.create',
 
+  // TAG
+  'post /tags': 'TagController.create',
+  'get /tags': 'TagController.all',
+  'get /tags/count': 'TagController.count',
+
   //INSTITUTE
-  'post /institutes': 'InstituteController.create'
+  'get /institutes': 'InstituteController.all',
+  'post /institutes': 'InstituteController.create',
+  'get /institutes/:instituteId': 'InstituteController.show',
+  'post /institutes/:instituteId': 'InstituteController.update',
+  'delete /institutes/:instituteId': 'InstituteController.destroy',
+
+  //API
+  'get /api/institutes/:instituteId/lists': 'ListController.apiGetListsForInstitute',
+  'get /api/institutes/:instituteId/lists/:listId/reportTypes': 'ListController.apiGetReportTypesForList'
 
 
 

@@ -19,4 +19,14 @@ module.exports.policies = {
 
   // '*': true,
 
+  ListController: {
+    all: [],
+    create: [],
+    getReportTypes: [],
+    addTag: [],
+    removeTag: [],
+    apiGetListsForInstitute: ['tokenBelongsToUser', 'userBelongsToInstitute'],
+    apiGetReportTypesForList: ['tokenBelongsToUser', 'userBelongsToInstitute']
+  },
+
 };

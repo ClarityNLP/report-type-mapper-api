@@ -17,7 +17,8 @@
     "sails-hook-sockets": "^1.4.0",
     "sails-mysql": "^1.0.0-15",
     "skipper-csv": "0.0.1",
-    "socket.io-redis": "4.0.0"
+    "socket.io-redis": "4.0.0",
+    "uid-generator": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "3.19.0"
