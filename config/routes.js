@@ -44,23 +44,30 @@ module.exports.routes = {
   'post /institutes/:instituteId/lists/:listId/addTag': 'ListController.addTag',
   'post /institutes/:instituteId/lists/:listId/removeTag': 'ListController.removeTag',
   // 'post /insitutes/:instituteId/lists/:listId/reportTypes': 'ListController.uploadReportTypes',
-  'post /insitutes/:instituteId/lists': 'ListController.create',
+  'post /institutes/:instituteId/lists': 'ListController.create',
 
   // TAG
-  'post /tags': 'TagController.create',
-  'get /tags': 'TagController.all',
+  'post /tags': 'TagController.create', //create list specific tag
+  'post /createGlobalTag': 'TagController.createGlobalTag', //create global tag for each list
+  'post /uploadLoincDocumentOntologyCSV': 'TagController.uploadLoincDocumentOntologyCSV', //upload LOINC csv for bulk global tag creation
+
+  'get /institutes/:instituteId/lists/:listId/tags': 'TagController.getTags',
   'get /tags/count': 'TagController.count',
 
   //INSTITUTE
   'get /institutes': 'InstituteController.all',
   'post /institutes': 'InstituteController.create',
+  'get /institutes/:instituteId/name': 'InstituteController.name',
   'get /institutes/:instituteId': 'InstituteController.show',
   'post /institutes/:instituteId': 'InstituteController.update',
   'delete /institutes/:instituteId': 'InstituteController.destroy',
 
   //API
   'get /api/institutes/:instituteId/lists': 'ListController.apiGetListsForInstitute',
-  'get /api/institutes/:instituteId/lists/:listId/reportTypes': 'ListController.apiGetReportTypesForList'
+  'get /api/institutes/:instituteId/lists/:listId/reportTypes': 'ListController.apiGetReportTypesForList',
+  'get /api/institutes/:instituteId/lists/:listId/tags/:tagId/reportTypes': 'ListController.apiGetReportTypesByTag'
+  // 'get /api/institutes/:instituteId/lists/:listId/tags': 'ListController.apiGetTagsForList',
+  // 'get /api/institutes/:instituteId/lists/:listId/tags/:tagId': 'ListController.apiGetTagForList'
 
 
 

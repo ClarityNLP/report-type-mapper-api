@@ -53,7 +53,29 @@ module.exports = {
               if (err) {
                 return res.serverError(err);
               }
-              return res.send(list);
+              GlobalTag.find().exec(function(err, tags) {
+                if (err) {
+                  return res.serverError(err);
+                }
+                var cleanedTags = [];
+                tags.map(function(tag) {
+                  cleanedTags.push({
+                    groupId: tag.groupId,
+                    documentKind: tag.documentKind,
+                    documentTypeOfService: tag.documentTypeOfService,
+                    documentSetting: tag.documentSetting,
+                    documentSubjectMatterDomain: tag.documentSubjectMatterDomain,
+                    documentRole: tag.documentRole,
+                    isDeleted: tag.isDeleted
+                  });
+                });
+                sails.helpers.createGlobalTagsForEachList( { lists: list, tags: cleanedTags } ).switch({
+                  error: function(err) { return res.serverError(err); },
+                  success: function(suc) {
+                    return res.ok();
+                  }
+                });
+              })
             });
           });
         });
@@ -66,7 +88,7 @@ module.exports = {
     var listId = req.param('listId');
     var page = req.param('page') ? req.param('page') : 0;
     var query = req.param('query') ? req.param('query') : '';
-    ReportType.find( { where: { list: listId, name: { 'contains': query } } } ).paginate(page, 30).exec(function(err, paginatedReportTypes){
+    ReportType.find( { where: { list: listId, name: { 'contains': query } } } ).paginate(page, 30).populate('tags').exec(function(err, paginatedReportTypes){
       if (err) {
         sails.log.error(err);
         return res.send(500);
@@ -86,27 +108,34 @@ module.exports = {
     var listId = req.param('listId');
     var reportTypeId = req.param('reportTypeId');
     var tagId = req.param('tagId');
-    ReportType.findOne( { id: reportTypeId } ).exec(function(err, reportType) {
+    ReportType.addToCollection(reportTypeId, 'tags', tagId).exec(function(err) {
       if (err) {
         sails.log.error(err);
         return res.send(500);
       }
-      Tag.findOne( { id: tagId } ).exec(function(err, tag) {
-        if (err) {
-          sails.log.error(err);
-          return res.send(500);
-        }
-        var tagArray = reportType.tags;
-        tagArray.push(tag);
-        ReportType.update( { id: reportTypeId }, { tags: tagArray } ).exec(function(err, updatedReportType) {
-          if (err) {
-            sails.log.error(err);
-            return res.send(500);
-          }
-          return res.send(200);
-        });
-      })
-    })
+      return res.ok();
+    });
+    // ReportType.findOne( { id: reportTypeId } ).exec(function(err, reportType) {
+    //   if (err) {
+    //     sails.log.error(err);
+    //     return res.send(500);
+    //   }
+    //   Tag.findOne( { id: tagId } ).exec(function(err, tag) {
+    //     if (err) {
+    //       sails.log.error(err);
+    //       return res.send(500);
+    //     }
+    //     var tagArray = reportType.tags;
+    //     tagArray.push(tag);
+    //     ReportType.update( { id: reportTypeId }, { tags: tagArray } ).exec(function(err, updatedReportType) {
+    //       if (err) {
+    //         sails.log.error(err);
+    //         return res.send(500);
+    //       }
+    //       return res.send(200);
+    //     });
+    //   })
+    // })
   },
 
   removeTag: function(req,res) {
@@ -166,6 +195,19 @@ module.exports = {
         }
         return res.send( { reportTypes: paginatedReportTypes, numResults: reportTypes.length } );
       });
+    });
+  },
+
+  apiGetReportTypesByTag: function(req,res) {
+    var instituteId = req.param('instituteId');
+    var listId = req.param('listId');
+    var tagId = req.param('tagId');
+    Tag.findOne( { id: tagId } ).populate('reportTypes').exec(function(err, tag) {
+      if (err) {
+        sails.log.error(err);
+        return res.send(500);
+      }
+      return res.send(tag);
     });
   }
 }

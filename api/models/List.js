@@ -20,6 +20,11 @@ module.exports = {
       type: 'number'
     },
 
+    tags: {
+      collection: 'tag',
+      via: 'list'
+    },
+
     institute: {
       model: 'institute'
     }

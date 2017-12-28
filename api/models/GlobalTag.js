@@ -19,7 +19,9 @@ module.exports = {
     },
 
     documentSubjectMatterDomain: {
-      type: 'string'
+      type: 'string',
+      required: true,
+      unique: true
     },
 
     documentRole: {
@@ -29,20 +31,8 @@ module.exports = {
     isDeleted: {
       type: 'boolean',
       defaultsTo: false
-    },
-
-    reportTypes: {
-      collection: 'reportType',
-      via: 'tags'
-    },
-
-    list: {
-      model: 'list'
-    },
-
-    origin: {
-      type: 'string',
-      isIn: ['Global', 'List']
     }
+
   }
+
 }

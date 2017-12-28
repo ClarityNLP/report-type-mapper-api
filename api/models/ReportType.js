@@ -14,10 +14,16 @@ module.exports = {
       model: 'list'
     },
 
+    // tags: {
+    //   type: 'json',
+    //   defaultsTo: []
+    // }
+
     tags: {
-      type: 'json',
-      defaultsTo: []
+      collection: 'tag',
+      via: 'reportTypes'
     }
+
   }
 
 }
