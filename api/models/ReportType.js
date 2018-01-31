@@ -6,6 +6,10 @@ module.exports = {
       type: 'string'
     },
 
+    normName: {
+      type: 'string'
+    },
+
     isDeleted: {
       type: 'boolean'
     },
@@ -13,11 +17,6 @@ module.exports = {
     list: {
       model: 'list'
     },
-
-    // tags: {
-    //   type: 'json',
-    //   defaultsTo: []
-    // }
 
     tags: {
       collection: 'tag',

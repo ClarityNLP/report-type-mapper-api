@@ -1,3 +1,6 @@
+const UIDGenerator = require('uid-generator');
+const uidgen = new UIDGenerator();
+
 module.exports = {
 
   createGlobalTag: function(req,res) {
@@ -29,33 +32,45 @@ module.exports = {
   },
 
   uploadLoincDocumentOntologyCSV: function(req,res) {
+    var fileFormat = req.param('fileFormat');
     var tagLookUp = {};
     var subjectMatterDomainArr = [];
+
     req.file('tagFile').upload({
       adapter: require('skipper-csv'),
       csvOptions: {delimiter: ',', columns: true},
       rowHandler: function(row, fd){
-        var groupId = row['groupId'];
-        var attribute = row['attribute'];
-        var attributeValue = row['attributeValue'];
+        if (fileFormat !== 'simple') {
+          var groupId = row['groupId'];
+          var attribute = row['attribute'];
+          var attributeValue = row['attributeValue'];
 
-        if (!tagLookUp[groupId]) {
-          tagLookUp[groupId] = {}
-        }
+          if (!tagLookUp[groupId]) {
+            tagLookUp[groupId] = {}
+          }
 
-        var obj = tagLookUp[groupId];
+          var obj = tagLookUp[groupId];
 
-        obj['groupId'] = groupId;
-        if (attribute == 'Document.TypeOfService') {
-          obj['documentTypeOfService'] = attributeValue;
-        } else if (attribute == 'Document.Setting') {
-          obj['documentSetting'] = attributeValue;
-        } else if (attribute == 'Document.Role') {
-          obj['documentRole'] = attributeValue;
-        } else if (attribute == 'Document.Kind') {
-          obj['documentKind'] = attributeValue;
-        } else if (attribute == 'Document.SubjectMatterDomain') {
-          obj['documentSubjectMatterDomain'] = attributeValue;
+          obj['groupId'] = groupId;
+          if (attribute == 'Document.TypeOfService') {
+            obj['documentTypeOfService'] = attributeValue;
+          } else if (attribute == 'Document.Setting') {
+            obj['documentSetting'] = attributeValue;
+          } else if (attribute == 'Document.Role') {
+            obj['documentRole'] = attributeValue;
+          } else if (attribute == 'Document.Kind') {
+            obj['documentKind'] = attributeValue;
+          } else if (attribute == 'Document.SubjectMatterDomain') {
+            obj['documentSubjectMatterDomain'] = attributeValue;
+            obj['normDSMD'] = attributeValue.toLowerCase();
+          }
+        } else {
+          var tagValue = row['tag'];
+          var uid = uidgen.generateSync();
+          tagLookUp[uid] = {
+            documentSubjectMatterDomain: tagValue,
+            normDSMD: tagValue.toLowerCase()
+          };
         }
       },
       maxBytes: 10000000
@@ -66,7 +81,7 @@ module.exports = {
       if (uploadedFiles.length === 0){
         return res.badRequest('No file was uploaded');
       }
-
+      console.log('tagLookUp: ',tagLookUp);
       var tagsArr = [];
       _.forEach(tagLookUp, function(value, key) {
         value['origin'] = 'Global';
@@ -99,6 +114,7 @@ module.exports = {
               documentTypeOfService: tag.documentTypeOfService,
               documentSetting: tag.documentSetting,
               documentSubjectMatterDomain: tag.documentSubjectMatterDomain,
+              normDSMD: tag.normDSMD,
               documentRole: tag.documentRole,
               isDeleted: tag.isDeleted
             });
@@ -118,32 +134,6 @@ module.exports = {
           });
         });
       });
-
-      // GlobalTag.createEach(tagsArr).fetch().exec(function(err, tags) {
-      //   if (err) {
-      //    if (err.code == "E_VALIDATION") {
-      //      sails.log.debug("validation fail");
-      //    } else {
-      //      sails.log.error(err);
-      //      return sails.log.error("crash");
-      //    }
-      //   }
-      //   console.log('tags created: ',tags);
-      //   return res.ok();
-      // });
-
-      // List.find().exec(function(err, lists) {
-      //   if (err) {
-      //     sails.log.error(err);
-      //     return res.send(500);
-      //   }
-      //   sails.helpers.createGlobalTagsForEachList( { lists: lists, tags: tagsArr } ).switch({
-      //     error: function(err) { return res.serverError(err); },
-      //     success: function(suc) {
-      //       return res.ok();
-      //     }
-      //   });
-      // });
     });
   },
 
@@ -159,11 +149,9 @@ module.exports = {
 
   getTags: function(req,res) {
     var listId = req.param('listId');
-    var query = req.param('query') ? req.param('query') : '';
-    console.log(listId);
-    console.log(query);
+    var query = req.param('query').toLowerCase() ? req.param('query').toLowerCase() : '';
 
-    Tag.find( { where: { list: listId, documentSubjectMatterDomain: { 'contains': query } } } ).exec(function(err,tags) {
+    Tag.find( { where: { list: listId, normDSMD: { 'contains': query } }, sort: 'normDSMD ASC' } ).exec(function(err,tags) {
       if (err) {
         sails.log.error(err);
         return res.send(500);

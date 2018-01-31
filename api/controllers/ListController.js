@@ -30,6 +30,7 @@ module.exports = {
         rowHandler: function(row, fd){
           reportTypeArr.push({
             name: row['Report Type Name'],
+            normName: row['Report Type Name'].toLowerCase(),
             list: list.id
           });
         },
@@ -63,6 +64,7 @@ module.exports = {
                     groupId: tag.groupId,
                     documentKind: tag.documentKind,
                     documentTypeOfService: tag.documentTypeOfService,
+                    normDSMD: tag.documentSubjectMatterDomain.toLowerCase(),
                     documentSetting: tag.documentSetting,
                     documentSubjectMatterDomain: tag.documentSubjectMatterDomain,
                     documentRole: tag.documentRole,
@@ -87,13 +89,13 @@ module.exports = {
     var instituteId = req.param('instituteId');
     var listId = req.param('listId');
     var page = req.param('page') ? req.param('page') : 0;
-    var query = req.param('query') ? req.param('query') : '';
-    ReportType.find( { where: { list: listId, name: { 'contains': query } } } ).paginate(page, 30).populate('tags').exec(function(err, paginatedReportTypes){
+    var query = req.param('query').toLowerCase() ? req.param('query').toLowerCase() : '';
+    ReportType.find( { where: { list: listId, normName: { 'contains': query } } } ).paginate(page, 30).populate('tags').exec(function(err, paginatedReportTypes){
       if (err) {
         sails.log.error(err);
         return res.send(500);
       }
-      ReportType.find( { where: { list: listId, name: { 'contains': query } } } ).exec(function(err, reportTypes){
+      ReportType.find( { where: { list: listId, normName: { 'contains': query } } } ).exec(function(err, reportTypes){
         if (err) {
           sails.log.error(err);
           return res.send(500);
@@ -115,27 +117,59 @@ module.exports = {
       }
       return res.ok();
     });
-    // ReportType.findOne( { id: reportTypeId } ).exec(function(err, reportType) {
-    //   if (err) {
-    //     sails.log.error(err);
-    //     return res.send(500);
-    //   }
-    //   Tag.findOne( { id: tagId } ).exec(function(err, tag) {
-    //     if (err) {
-    //       sails.log.error(err);
-    //       return res.send(500);
-    //     }
-    //     var tagArray = reportType.tags;
-    //     tagArray.push(tag);
-    //     ReportType.update( { id: reportTypeId }, { tags: tagArray } ).exec(function(err, updatedReportType) {
-    //       if (err) {
-    //         sails.log.error(err);
-    //         return res.send(500);
-    //       }
-    //       return res.send(200);
-    //     });
-    //   })
-    // })
+  },
+
+  allSelectedAddTag: function(req,res) {
+    var instituteId = req.param('instituteId');
+    var listId = req.param('listId');
+    var query = req.param('reportTypeQuery') ? req.param('reportTypeQuery').toLowerCase() : '';
+    var tagId = req.param('tagId');
+    ReportType.find( { where: { list: listId, normName: { 'contains': query } } } ).exec(function(err, reportTypes){
+      if (err) {
+        sails.log.error(err);
+        return res.send(500);
+      }
+      async.map(reportTypes, function(reportType, mapCb) {
+        sails.log.info('running assoc for report type: ',reportType.id);
+        ReportType.addToCollection(reportType.id, 'tags', tagId).exec(function(err) {
+          if (err) return mapCb(err);
+          return mapCb(null)
+        });
+      }, function(err, suc) {
+        if (err) {
+          sails.log.error(err);
+          return res.send(500);
+        }
+        return res.ok();
+      });
+      // return res.send(200);
+    });
+  },
+
+  allSelectedRemoveTag: function(req,res) {
+    var instituteId = req.param('instituteId');
+    var listId = req.param('listId');
+    var query = req.param('reportTypeQuery') ? req.param('reportTypeQuery').toLowerCase() : '';
+    var tagId = req.param('tagId');
+    ReportType.find( { where: { list: listId, normName: { 'contains': query } } } ).exec(function(err, reportTypes){
+      if (err) {
+        sails.log.error(err);
+        return res.send(500);
+      }
+      async.map(reportTypes, function(reportType, mapCb) {
+        sails.log.info('removing tag '+ tagId + 'from report type: ' + reportType.id);
+        ReportType.removeFromCollection(reportType.id, 'tags', tagId).exec(function(err) {
+          if (err) return mapCb(err);
+          return mapCb(null)
+        });
+      }, function(err, suc) {
+        if (err) {
+          sails.log.error(err);
+          return res.send(500);
+        }
+        return res.ok();
+      });
+    });
   },
 
   removeTag: function(req,res) {
@@ -143,29 +177,16 @@ module.exports = {
     var listId = req.param('listId');
     var reportTypeId = req.param('reportTypeId');
     var tagId = req.param('tagId');
-    ReportType.findOne( { id: reportTypeId } ).exec(function(err, reportType) {
+    ReportType.removeFromCollection(reportTypeId, 'tags', tagId).exec(function(err) {
       if (err) {
         sails.log.error(err);
         return res.send(500);
       }
-      var tagArr = reportType.tags;
-      var newTagArr = [];
-      _.forEach(tagArr, function(tag) {
-        if (tag.id !== tagId) {
-          newTagArr.push(tag);
-        }
-      });
-      ReportType.update( { id: reportTypeId }, { tags: newTagArr } ).exec(function(err, updatedReportType) {
-        if (err) {
-          sails.log.error(err);
-          return res.send(500);
-        }
-        return res.send(200);
-      });
+      return res.ok();
     });
   },
 
-  //API
+  //Public API
   apiGetListsForInstitute: function(req,res) {
     var instituteId = req.param('instituteId');
 

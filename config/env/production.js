@@ -46,8 +46,8 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     default: {
-      // adapter: 'sails-mysql',
-      // url: 'mysql://user:password@host:port/database',
+      adapter: 'sails-mysql',
+      url: 'mysql://root:gtri@localhost:3306/report-type-mapper',
     },
     //--------------------------------------------------------------------------
     //  /\   To avoid checking it in to version control, you might opt to set
@@ -169,7 +169,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     // adapter: 'connect-redis',
-    // url: 'redis://user:password@localhost:6379/dbname',
+    // url: 'redis://rooo:password@localhost:6379/dbname',
     //--------------------------------------------------------------------------
     // /\   OR, to avoid checking it in to version control, you might opt to
     // ||   set sensitive credentials like this using an environment variable.

@@ -1,0 +1,253 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the public API documentation for Report Type Mapper. You can use your api key (located in your user profile) to experiment with the api.",
+    "version": "1.0.0",
+    "title": "Report Type Mapper",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "trey.schneider@gtri.gatech.edu"
+    }
+  },
+  "tags": [
+    {
+      "name": "report type",
+      "description": "Access to report types"
+    },
+    {
+      "name": "list",
+      "description": "Access to lists"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/institutes/{instituteId}/lists/{listId}/reportTypes": {
+      "get": {
+        "tags": [
+          "report type"
+        ],
+        "summary": "Get report types for a list",
+        "operationId": "getReportTypesForList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "instituteId",
+            "description": "ID of institute",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "listId",
+            "description": "ID of list",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ReportType"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/institutes/{instituteId}/lists/{listId}/tags/{tagId}/reportTypes": {
+      "get": {
+        "tags": [
+          "report type"
+        ],
+        "summary": "Finds all report types for a tag",
+        "operationId": "getReportTypesByTag",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "instituteId",
+            "description": "ID of institute",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "listId",
+            "description": "ID of list",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "tagId",
+            "description": "ID of tag",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ReportType"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/api/institutes/{instituteId}/lists": {
+      "get": {
+        "tags": [
+          "list"
+        ],
+        "summary": "Finds lists for an institute",
+        "operationId": "getListsForInstitute",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "instituteId",
+            "description": "ID of institute",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/List"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "apiToken",
+      "in": "query"
+    }
+  },
+  "definitions": {
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "groupId": {
+          "type": "integer"
+        },
+        "documentKind": {
+          "type": "string"
+        },
+        "documentTypeOfService": {
+          "type": "string"
+        },
+        "documentSetting": {
+          "type": "string"
+        },
+        "documentSubjectMatterDomain": {
+          "type": "string"
+        },
+        "documentRole": {
+          "type": "string"
+        },
+        "isDeleted": {
+          "type": "boolean",
+          "default": false
+        },
+        "list": {
+          "type": "integer"
+        },
+        "origin": {
+          "type": "string"
+        }
+      }
+    },
+    "ReportType": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "isDeleted": {
+          "type": "boolean"
+        },
+        "list": {
+          "type": "integer"
+        }
+      }
+    },
+    "List": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "isDeleted": {
+          "type": "boolean"
+        },
+        "numOfReportTypes": {
+          "type": "integer"
+        },
+        "institute": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

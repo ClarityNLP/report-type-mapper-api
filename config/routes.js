@@ -36,13 +36,16 @@ module.exports.routes = {
 
   // USER
   'post /signup': 'UserController.create',
+  'get /getToken': 'UserController.getToken',
 
   // LIST
   'get /institutes/:instituteId/lists': 'ListController.all',
   'get /institutes/:instituteId/lists/:listId': 'ListController.show',
   'get /institutes/:instituteId/lists/:listId/reportTypes': 'ListController.getReportTypes',
   'post /institutes/:instituteId/lists/:listId/addTag': 'ListController.addTag',
+  'post /institutes/:instituteId/lists/:listId/allSelectedAddTag': 'ListController.allSelectedAddTag',
   'post /institutes/:instituteId/lists/:listId/removeTag': 'ListController.removeTag',
+  'post /institutes/:instituteId/lists/:listId/allSelectedRemoveTag': 'ListController.allSelectedRemoveTag',
   // 'post /insitutes/:instituteId/lists/:listId/reportTypes': 'ListController.uploadReportTypes',
   'post /institutes/:instituteId/lists': 'ListController.create',
 
@@ -65,38 +68,11 @@ module.exports.routes = {
   //API
   'get /api/institutes/:instituteId/lists': 'ListController.apiGetListsForInstitute',
   'get /api/institutes/:instituteId/lists/:listId/reportTypes': 'ListController.apiGetReportTypesForList',
-  'get /api/institutes/:instituteId/lists/:listId/tags/:tagId/reportTypes': 'ListController.apiGetReportTypesByTag'
+  'get /api/institutes/:instituteId/lists/:listId/tags/:tagId/reportTypes': 'ListController.apiGetReportTypesByTag',
   // 'get /api/institutes/:instituteId/lists/:listId/tags': 'ListController.apiGetTagsForList',
   // 'get /api/institutes/:instituteId/lists/:listId/tags/:tagId': 'ListController.apiGetTagForList'
 
-
-
-  /***************************************************************************
-  *                                                                          *
-  * More custom routes here...                                               *
-  * (See https://sailsjs.com/config/routes for examples.)                    *
-  *                                                                          *
-  * If a request to a URL doesn't match any of the routes in this file, it   *
-  * is matched against "shadow routes" (e.g. blueprint routes).  If it does  *
-  * not match any of those, it is matched against static assets.             *
-  *                                                                          *
-  ***************************************************************************/
-
-
-  //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
-  //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
-  //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
-
-
-
-  //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
-  //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
-  //  ╚╩╝╚═╝╚═╝╩ ╩╚═╝╚═╝╩ ╩╚═╝
-
-
-  //  ╔╦╗╦╔═╗╔═╗
-  //  ║║║║╚═╗║
-  //  ╩ ╩╩╚═╝╚═╝
-
+  //SWAGGER
+  'get /v1/swagger.json': 'SwaggerController.getSwaggerFile'
 
 };

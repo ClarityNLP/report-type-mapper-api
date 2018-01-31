@@ -24,6 +24,10 @@ module.exports = {
       unique: true
     },
 
+    normDSMD: {
+      type: 'string'
+    },
+
     documentRole: {
       type: 'string'
     },

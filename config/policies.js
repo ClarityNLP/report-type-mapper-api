@@ -19,14 +19,42 @@ module.exports.policies = {
 
   // '*': true,
 
-  ListController: {
+  InstituteController: {
     all: [],
     create: [],
-    getReportTypes: [],
-    addTag: [],
-    removeTag: [],
-    apiGetListsForInstitute: ['tokenBelongsToUser', 'userBelongsToInstitute'],
-    apiGetReportTypesForList: ['tokenBelongsToUser', 'userBelongsToInstitute']
+    show: ['isNotPending', 'isAuthenticated'],//TODO isInInstitute aware of Admin
+    name: ['isNotPending', 'isAuthenticated'],
+    update: ['isNotPending', 'isAuthenticated', 'isAdmin'],
+    destroy: ['isNotPending', 'isAuthenticated', 'isAdmin']
   },
+
+  ListController: {
+    all: ['isNotPending', 'isAuthenticated'],
+    create: ['isNotPending', 'isAuthenticated'],
+    getReportTypes: ['isNotPending', 'isAuthenticated'],
+    addTag: ['isNotPending', 'isAuthenticated'],
+    removeTag: ['isNotPending', 'isAuthenticated'],
+    apiGetListsForInstitute: ['tokenBelongsToUser', 'userBelongsToInstitute'],
+    apiGetReportTypesForList: ['tokenBelongsToUser', 'userBelongsToInstitute'],
+    apiGetReportTypesByTag: ['tokenBelongsToUser', 'userBelongsToInstitute']
+  },
+
+  SessionController: {
+    login: [],
+    logout: [],
+    me: []
+  },
+
+  TagController: {
+    createGlobalTag: ['isNotPending', 'isAuthenticated', 'isAdmin'],
+    createListSpecificTag: ['isNotPending', 'isAuthenticated'],
+    uploadLoincDocumentOntologyCSV: ['isNotPending', 'isAuthenticated'],
+    count: ['isNotPending', 'isAuthenticated'],
+    getTags: ['isNotPending', 'isAuthenticated']
+  },
+
+  UserController: {
+    create: []
+  }
 
 };
