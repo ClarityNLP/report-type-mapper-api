@@ -30,7 +30,7 @@ module.exports.security = {
 
   cors: {
     allRoutes: true,
-    allowOrigins: ['http://localhost:8000', 'http://localhost:8080', 'http://104.131.34.144', 'http://localhost:3000', 'http://104.131.34.144:3000'],
+    allowOrigins: ['http://localhost:8000', 'http://localhost:8080', 'http://104.131.34.144', 'http://localhost:3000', 'http://104.131.34.144:3000', 'http://report-type-mapper.hdap.gatech.edu', 'http://report-type-mapper.hdap.gatech.edu:3000'],
     allowCredentials: true,
     // allowAnyOriginWithCredentialsUnsafe: true
   },
