@@ -233,7 +233,7 @@ module.exports = {
   },
 
   apiDestroyLists: function(req,res) {
-    List.destroy().exec(function(err) {
+    List.destroy({}).exec(function(err) {
       if (err) {
         sails.log.error(err);
         return res.send(500);
@@ -243,7 +243,7 @@ module.exports = {
   },
 
   apiDestroyReportTypes: function(req,res) {
-    ReportType.destroy().exec(function(err) {
+    ReportType.destroy({}).exec(function(err) {
       if (err) {
         sails.log.error(err);
         return res.send(500);

@@ -161,7 +161,7 @@ module.exports = {
   },
 
   apiDestroyGlobalTags: function(req,res) {
-    GlobalTag.destroy().exec(function(err) {
+    GlobalTag.destroy({}).exec(function(err) {
       if (err) {
         sails.log.error(err);
         return res.send(500);
@@ -171,7 +171,7 @@ module.exports = {
   },
 
   apiDestroyTags: function(req,res) {
-    Tag.destroy().exec(function(err) {
+    Tag.destroy({}).exec(function(err) {
       if (err) {
         sails.log.error(err);
         return res.send(500);
