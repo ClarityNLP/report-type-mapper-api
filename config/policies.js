@@ -36,7 +36,9 @@ module.exports.policies = {
     removeTag: ['isNotPending', 'isAuthenticated'],
     apiGetListsForInstitute: ['tokenBelongsToUser', 'userBelongsToInstitute'],
     apiGetReportTypesForList: ['tokenBelongsToUser', 'userBelongsToInstitute'],
-    apiGetReportTypesByTag: ['tokenBelongsToUser', 'userBelongsToInstitute']
+    apiGetReportTypesByTag: ['tokenBelongsToUser', 'userBelongsToInstitute'],
+    apiDestroyLists: ['tokenBelongsToUser', 'tokenBelongsToAdmin'],
+    apiDestroyReportTypes: ['tokenBelongsToUser', 'tokenBelongsToAdmin']
   },
 
   SessionController: {
@@ -50,7 +52,9 @@ module.exports.policies = {
     createListSpecificTag: ['isNotPending', 'isAuthenticated'],
     uploadLoincDocumentOntologyCSV: ['isNotPending', 'isAuthenticated'],
     count: ['isNotPending', 'isAuthenticated'],
-    getTags: ['isNotPending', 'isAuthenticated']
+    getTags: ['isNotPending', 'isAuthenticated'],
+    apiDestroyTags: ['tokenBelongsToUser', 'tokenBelongsToAdmin'],
+    apiDestroyGlobalTags: ['tokenBelongsToUser', 'tokenBelongsToAdmin']
   },
 
   UserController: {

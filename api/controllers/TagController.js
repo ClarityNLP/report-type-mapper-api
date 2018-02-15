@@ -158,5 +158,25 @@ module.exports = {
       }
       return res.send( { tags: tags, numResults: tags.length } );
     });
+  },
+
+  apiDestroyGlobalTags: function(req,res) {
+    GlobalTag.destroy().exec(function(err) {
+      if (err) {
+        sails.log.error(err);
+        return res.send(500);
+      }
+      return res.send(200);
+    });
+  },
+
+  apiDestroyTags: function(req,res) {
+    Tag.destroy().exec(function(err) {
+      if (err) {
+        sails.log.error(err);
+        return res.send(500);
+      }
+      return res.send(200);
+    });
   }
 }

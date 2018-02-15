@@ -48,11 +48,15 @@ module.exports.routes = {
   'post /institutes/:instituteId/lists/:listId/allSelectedRemoveTag': 'ListController.allSelectedRemoveTag',
   // 'post /insitutes/:instituteId/lists/:listId/reportTypes': 'ListController.uploadReportTypes',
   'post /institutes/:instituteId/lists': 'ListController.create',
+  'get /destroyLists': 'ListController.apiDestroyLists',
+  'get /destroyReportTypes': 'ListController.apiDestroyReportTypes',
 
   // TAG
   'post /tags': 'TagController.create', //create list specific tag
   'post /createGlobalTag': 'TagController.createGlobalTag', //create global tag for each list
   'post /uploadLoincDocumentOntologyCSV': 'TagController.uploadLoincDocumentOntologyCSV', //upload LOINC csv for bulk global tag creation
+  'get /destroyGlobalTags': 'TagController.apiDestroyGlobalTags',
+  'get /destroyTags': 'TagController.apiDestroyTags',
 
   'get /institutes/:instituteId/lists/:listId/tags': 'TagController.getTags',
   'get /tags/count': 'TagController.count',

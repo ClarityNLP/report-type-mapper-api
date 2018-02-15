@@ -230,5 +230,25 @@ module.exports = {
       }
       return res.send(tag);
     });
+  },
+
+  apiDestroyLists: function(req,res) {
+    List.destroy().exec(function(err) {
+      if (err) {
+        sails.log.error(err);
+        return res.send(500);
+      }
+      return res.send(200);
+    });
+  },
+
+  apiDestroyReportTypes: function(req,res) {
+    ReportType.destroy().exec(function(err) {
+      if (err) {
+        sails.log.error(err);
+        return res.send(500);
+      }
+      return res.send(200);
+    });
   }
 }
