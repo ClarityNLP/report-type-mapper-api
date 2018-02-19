@@ -3,8 +3,8 @@ module.exports = {
   datastores: {
 
     default: {
-      adapter: 'sails-mysql',
-      url: 'mysql://root:gtri@localhost:3306/report-type-mapper',
+      adapter: 'sails-postgresql',
+      url: 'postgres://sails:sails@postgres:5432/report-type-mapper'
     }
 
   },
