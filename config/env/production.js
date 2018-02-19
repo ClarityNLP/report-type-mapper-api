@@ -74,9 +74,7 @@ module.exports = {
     * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
     *                                                                          *
     ***************************************************************************/
-    // onlyAllowOrigins: [
-    //   'https://example.com',
-    // ],
+    onlyAllowOrigins: ['http://report-type-mapper.hdap.gatech.edu', 'http://report-type-mapper.hdap.gatech.edu:3000'],
 
 
     /***************************************************************************
