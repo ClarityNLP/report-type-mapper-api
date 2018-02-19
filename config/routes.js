@@ -37,6 +37,9 @@ module.exports.routes = {
   // USER
   'post /signup': 'UserController.create',
   'get /getToken': 'UserController.getToken',
+  'get /users': 'UserController.getAll',
+  'post /users/:userId/activate': 'UserController.activate',
+  'delete /users/:userId': 'UserController.destroy',
 
   // LIST
   'get /institutes/:instituteId/lists': 'ListController.all',

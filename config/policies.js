@@ -34,6 +34,8 @@ module.exports.policies = {
     getReportTypes: ['isNotPending', 'isAuthenticated'],
     addTag: ['isNotPending', 'isAuthenticated'],
     removeTag: ['isNotPending', 'isAuthenticated'],
+    allSelectedAddTag: ['isNotPending', 'isAuthenticated'],
+    allSelectedRemoveTag: ['isNotPending', 'isAuthenticated'],
     apiGetListsForInstitute: ['tokenBelongsToUser', 'userBelongsToInstitute'],
     apiGetReportTypesForList: ['tokenBelongsToUser', 'userBelongsToInstitute'],
     apiGetReportTypesByTag: ['tokenBelongsToUser', 'userBelongsToInstitute'],
@@ -58,7 +60,11 @@ module.exports.policies = {
   },
 
   UserController: {
-    create: []
+    create: [],
+    getToken: [],
+    getAll: ['isNotPending', 'isAuthenticated', 'isAdmin'],
+    activate: ['isNotPending', 'isAuthenticated', 'isAdmin'],
+    destroy: ['isNotPending', 'isAuthenticated', 'isAdmin']
   }
 
 };

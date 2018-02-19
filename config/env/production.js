@@ -1,143 +1,28 @@
-/**
- * Production environment settings
- * (sails.config.*)
- *
- * What you see below is a quick outline of the built-in settings you need
- * to configure your Sails app for production.  The configuration in this file
- * is only used in your production environment, i.e. when you lift your app using:
- *
- * ```
- * NODE_ENV=production node app
- * ```
- *
- * > If you're using git as a version control solution for your Sails app,
- * > this file WILL BE COMMITTED to your repository by default, unless you add
- * > it to your .gitignore file.  If your repository will be publicly viewable,
- * > don't add private/sensitive data (like API keys / db passwords) to this file!
- *
- * For more best practices and tips, see:
- * https://sailsjs.com/docs/concepts/deployment
- */
-
 module.exports = {
 
-
-  /**************************************************************************
-  *                                                                         *
-  * Tell Sails what database(s) it should use in production.                *
-  *                                                                         *
-  * (https://sailsjs.com/config/datastores)                                 *
-  *                                                                         *
-  **************************************************************************/
   datastores: {
 
-    /***************************************************************************
-    *                                                                          *
-    * Configure your default production database.                              *
-    *                                                                          *
-    * 1. Choose an adapter:                                                    *
-    *    https://sailsjs.com/plugins/databases                                 *
-    *                                                                          *
-    * 2. Install it as a dependency of your Sails app.                         *
-    *    (For example:  npm install sails-mysql --save)                        *
-    *                                                                          *
-    * 3. Then pass it in, along with a connection URL.                         *
-    *    (See https://sailsjs.com/config/datastores for help.)                 *
-    *                                                                          *
-    ***************************************************************************/
     default: {
       adapter: 'sails-mysql',
       url: 'mysql://root:gtri@localhost:3306/report-type-mapper',
-    },
-    //--------------------------------------------------------------------------
-    //  /\   To avoid checking it in to version control, you might opt to set
-    //  ||   sensitive credentials like `url` using an environment variable.
-    //
-    //  For example:
-    //  ```
-    //  sails_datastores__default__url=mysql://admin:myc00lpAssw2D@db.example.com:3306/my_prod_db
-    //  ```
-    //--------------------------------------------------------------------------
+    }
 
   },
-
-
 
   models: {
-
-    /***************************************************************************
-    *                                                                          *
-    * To help avoid accidents, Sails automatically sets the automigration      *
-    * strategy to "safe" when your app lifts in production mode.               *
-    * (This is just here as a reminder.)                                       *
-    *                                                                          *
-    * More info:                                                               *
-    * https://sailsjs.com/docs/concepts/models-and-orm/model-settings#?migrate *
-    *                                                                          *
-    ***************************************************************************/
-    migrate: 'safe',
-
-    /***************************************************************************
-    *                                                                          *
-    * If, in production, this app has access to physical-layer CASCADE         *
-    * constraints (e.g. PostgreSQL or MySQL), then set those up in the         *
-    * database and uncomment this to disable Waterline's `cascadeOnDestroy`    *
-    * polyfill.  (Otherwise, if you are using a databse like Mongo, you might  *
-    * choose to keep this enabled.)                                            *
-    *                                                                          *
-    ***************************************************************************/
-    // cascadeOnDestroy: false,
-
+    migrate: 'safe'
   },
 
-
-
-  /**************************************************************************
-  *                                                                         *
-  * Always disable "shortcut" blueprint routes.                             *
-  *                                                                         *
-  * > You'll also want to disable any other blueprint routes if you are not *
-  * > actually using them (e.g. "actions" and "rest") -- but you can do     *
-  * > that in `config/blueprints.js`, since you'll want to disable them in  *
-  * > all environments (not just in production.)                            *
-  *                                                                         *
-  ***************************************************************************/
   blueprints: {
     shortcuts: false,
   },
 
-
-
-  /***************************************************************************
-  *                                                                          *
-  * Configure your security settings for production.                         *
-  *                                                                          *
-  * IMPORTANT:                                                               *
-  * If web browsers will be communicating with your app, be sure that        *
-  * you have CSRF protection enabled.  To do that, set `csrf: true` over     *
-  * in the `config/security.js` file (not here), so that CSRF app can be     *
-  * tested with CSRF protection turned on in development mode too.           *
-  *                                                                          *
-  ***************************************************************************/
   security: {
-
-    /***************************************************************************
-    *                                                                          *
-    * If this app has CORS enabled (see `config/security.js`) with the         *
-    * `allowCredentials` setting enabled, then you should uncomment the        *
-    * `allowOrigins` whitelist below.  This sets which "origins" are allowed   *
-    * to send cross-domain (CORS) requests to your Sails app.                  *
-    *                                                                          *
-    * > Replace "https://example.com" with the URL of your production server.  *
-    * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
-    *                                                                          *
-    ***************************************************************************/
     cors: {
-      // allowOrigins: [
-      //   'https://example.com',
-      // ]
+      allRoutes: true,
+      allowOrigins: ['http://report-type-mapper.hdap.gatech.edu', 'http://report-type-mapper.hdap.gatech.edu:3000'],
+      allowCredentials: true,
     },
-
   },
 
 
@@ -154,56 +39,11 @@ module.exports = {
   ***************************************************************************/
   session: {
 
-    /***************************************************************************
-    *                                                                          *
-    * Production session store configuration.                                  *
-    *                                                                          *
-    * Uncomment the following lines to set up a production session store       *
-    * package called "connect-redis" that will use Redis to share session      *
-    * data across a cluster of multiple Sails/Node.js servers or processes.    *
-    * (See http://bit.ly/redis-session-config for more info.)                  *
-    *                                                                          *
-    * > While "connect-redis" is a popular choice for Sails apps, many other   *
-    * > compatible packages (like "connect-mongo") are available on NPM.       *
-    * > (For a full list, see https://sailsjs.com/plugins/sessions)            *
-    *                                                                          *
-    ***************************************************************************/
-    // adapter: 'connect-redis',
-    // url: 'redis://rooo:password@localhost:6379/dbname',
-    //--------------------------------------------------------------------------
-    // /\   OR, to avoid checking it in to version control, you might opt to
-    // ||   set sensitive credentials like this using an environment variable.
-    //
-    // For example:
-    // ```
-    // sails_session__url=redis://admin:myc00lpAssw2D@bigsquid.redistogo.com:9562/sessions
-    // ```
-    //
-    //--------------------------------------------------------------------------
+    secret: 'fcea8be379be2dc12d47a5a40a0f7a89',
 
+    adapter: 'connect-redis',
+    url: 'redis://redis:6379/0'
 
-
-    /***************************************************************************
-    *                                                                          *
-    * Production configuration for the session ID cookie.                      *
-    *                                                                          *
-    * Tell browsers (or other user agents) to ensure that session ID cookies   *
-    * are always transmitted via HTTPS, and that they expire 24 hours after    *
-    * they are set.                                                            *
-    *                                                                          *
-    * Note that with `secure: true` set, session cookies will _not_ be         *
-    * transmitted over unsecured (HTTP) connections. Also, for apps behind     *
-    * proxies (like Heroku), the `trustProxy` setting under `http` must be     *
-    * configured in order for `secure: true` to work.                          *
-    *                                                                          *
-    * > While you might want to increase or decrease the `maxAge` or provide   *
-    * > other options, you should always set `secure: true` in production      *
-    * > if the app is being served over HTTPS.                                 *
-    *                                                                          *
-    * Read more:                                                               *
-    * https://sailsjs.com/config/session#?the-session-id-cookie                *
-    *                                                                          *
-    ***************************************************************************/
     cookie: {
       // secure: true,
       maxAge: 24 * 60 * 60 * 1000,  // 24 hours

@@ -189,7 +189,6 @@ module.exports = {
   //Public API
   apiGetListsForInstitute: function(req,res) {
     var instituteId = req.param('instituteId');
-
     List.find( { where: { institute: instituteId } } ).exec(function(err, lists) {
       if (err) {
         sails.log.error(err);
