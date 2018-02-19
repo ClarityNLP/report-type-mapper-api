@@ -199,22 +199,13 @@ module.exports = {
   },
 
   apiGetReportTypesForList: function(req,res) {
-    var instituteId = req.param('instituteId');
     var listId = req.param('listId');
-    var page = req.param('page') ? req.param('page') : 0;
-    var query = req.param('query') ? req.param('query') : '';
-    ReportType.find( { where: { list: listId, name: { 'contains': query } } } ).paginate(page, 30).exec(function(err, paginatedReportTypes){
+    ReportType.find( { where: { list: listId } } ).exec(function(err, reportTypes){
       if (err) {
         sails.log.error(err);
         return res.send(500);
       }
-      ReportType.find( { where: { list: listId, name: { 'contains': query } } } ).exec(function(err, reportTypes){
-        if (err) {
-          sails.log.error(err);
-          return res.send(500);
-        }
-        return res.send( { reportTypes: paginatedReportTypes, numResults: reportTypes.length } );
-      });
+      return res.send( { reportTypes: reportTypes } );
     });
   },
 
