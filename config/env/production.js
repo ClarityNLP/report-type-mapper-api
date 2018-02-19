@@ -42,7 +42,7 @@ module.exports = {
     secret: 'fcea8be379be2dc12d47a5a40a0f7a89',
 
     adapter: 'connect-redis',
-    url: 'redis://redis:6379/0'
+    url: 'redis://redis:6379/0',
 
     cookie: {
       // secure: true,
