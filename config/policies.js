@@ -62,9 +62,9 @@ module.exports.policies = {
   UserController: {
     create: [],
     getToken: [],
-    getAll: ['isNotPending', 'isAuthenticated', 'isAdmin'],
-    activate: ['isNotPending', 'isAuthenticated', 'isAdmin'],
-    destroy: ['isNotPending', 'isAuthenticated', 'isAdmin']
+    getAll: ['isNotPending', 'isAuthenticated'],//add isAdmin policy
+    activate: ['isNotPending', 'isAuthenticated'],//add isAdmin policy
+    destroy: ['isNotPending', 'isAuthenticated']//add isAdmin policy
   }
 
 };
