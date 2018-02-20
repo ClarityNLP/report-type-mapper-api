@@ -103,15 +103,26 @@ module.exports = {
 
   apiGetReportTypesForInstitute: function(req,res) {
     var instituteId = req.param('instituteId');
-    List.find( { institute: instituteId } ).populate('reportTypes').exec(function(err, lists) {
+    Institute.findOne( { id: instituteId } ).populate('lists').exec(function(err, institute ){
       if (err) {
         sails.log.error(err);
         return res.send(500);
       }
-      var reportTypes = _.flatMap(lists, function(n) {
-        return n.reportTypes;
-      })
-      return res.send(200, reportTypes);
-    });
+      sails.helpers.getReportTypesForLists( { lists: institute.lists } ).switch({
+        error: function(err) { return res.serverError(err); },
+        success: function(suc) {
+          var reportTypes = _.flatten(suc);
+          return res.send(200, reportTypes);
+        }
+      });
+    })
+    // List.find( { institute: instituteId } ).populate('reportTypes').populate('tags').exec(function(err, lists) {
+    //   if (err) {
+    //     sails.log.error(err);
+    //     return res.send(500);
+    //   }
+
+    //   return res.send(200, reportTypes);
+    // });
   }
 }
