@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 module.exports = {
 
   all: function(req,res) {
@@ -96,6 +98,20 @@ module.exports = {
           });
         });
       });
+    });
+  },
+
+  apiGetReportTypesForInstitute: function(req,res) {
+    var instituteId = req.param('instituteId');
+    List.find( { institute: instituteId } ).populate('reportTypes').exec(function(err, lists) {
+      if (err) {
+        sails.log.error(err);
+        return res.send(500);
+      }
+      var reportTypes = _.flatMap(lists, function(n) {
+        return n.reportTypes;
+      })
+      return res.send(200, reportTypes);
     });
   }
 }

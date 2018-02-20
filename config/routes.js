@@ -75,6 +75,7 @@ module.exports.routes = {
   //API
   'get /api/institutes/:instituteId/lists': 'ListController.apiGetListsForInstitute',
   'get /api/institutes/:instituteId/lists/:listId/reportTypes': 'ListController.apiGetReportTypesForList',
+  'get /api/institutes/:instituteId/reportTypes': 'InstituteController.apiGetReportTypesForInstitute',
   'get /api/institutes/:instituteId/lists/:listId/tags/:tagId/reportTypes': 'ListController.apiGetReportTypesByTag',
   // 'get /api/institutes/:instituteId/lists/:listId/tags': 'ListController.apiGetTagsForList',
   // 'get /api/institutes/:instituteId/lists/:listId/tags/:tagId': 'ListController.apiGetTagForList'
