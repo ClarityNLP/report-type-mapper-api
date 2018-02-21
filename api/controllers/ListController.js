@@ -90,12 +90,12 @@ module.exports = {
     var listId = req.param('listId');
     var page = req.param('page') ? req.param('page') : 0;
     var query = req.param('query').toLowerCase() ? req.param('query').toLowerCase() : '';
-    ReportType.find( { where: { list: listId, normName: { 'contains': query } } } ).paginate(page, 30).populate('tags').exec(function(err, paginatedReportTypes){
+    ReportType.find( { where: { list: listId, normName: { 'startsWith': query } } } ).paginate(page, 30).populate('tags').exec(function(err, paginatedReportTypes){
       if (err) {
         sails.log.error(err);
         return res.send(500);
       }
-      ReportType.find( { where: { list: listId, normName: { 'contains': query } } } ).exec(function(err, reportTypes){
+      ReportType.find( { where: { list: listId, normName: { 'startsWith': query } } } ).exec(function(err, reportTypes){
         if (err) {
           sails.log.error(err);
           return res.send(500);
