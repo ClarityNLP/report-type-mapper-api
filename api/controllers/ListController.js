@@ -211,7 +211,7 @@ module.exports = {
 
   apiGetReportTypesForList: function(req,res) {
     var listId = req.param('listId');
-    ReportType.find( { where: { list: listId } } ).exec(function(err, reportTypes){
+    ReportType.find( { where: { list: listId } } ).populate('tags').exec(function(err, reportTypes){
       if (err) {
         sails.log.error(err);
         return res.send(500);
