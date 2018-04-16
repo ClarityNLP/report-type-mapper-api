@@ -28,7 +28,7 @@ module.exports = {
           sails.log.error(err);
           return res.send(500);
         }
-        sails.helpers.sendAdminsRegistrationEmail( { user: user } ).switch({
+        sails.helpers.sendAdminsRegistrationEmail( user ).switch({
           error: function(err) { return res.serverError(err); },
           success: function(info) {
             req.session.userId = user.id;
@@ -86,7 +86,7 @@ module.exports = {
           sails.log.error(err);
           return res.send(500);
         }
-        sails.helpers.sendUserActivatedEmail( { user: user[0], activate: activate } ).switch({
+        sails.helpers.sendUserActivatedEmail( user[0], activate ).switch({
           error: function(err) { return res.serverError(err); },
           success: function(info) {
             console.log('email info: ',info);

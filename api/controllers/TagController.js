@@ -14,7 +14,7 @@ module.exports = {
         sails.log.error(err);
         return res.send(500);
       }
-      sails.helpers.createGlobalTagForEachList( { lists: lists, name: name } ).switch({
+      sails.helpers.createGlobalTagForEachList( lists, name ).switch({
         error: function(err) { return res.serverError(err); },
         success: function(suc) {
           return res.ok();
@@ -110,12 +110,14 @@ module.exports = {
               }
             });
 
+            console.log('cleanedTags: ',cleanedTags);
+
             List.find().exec(function(err, lists) {
               if (err) {
                 sails.log.error(err);
                 return res.sendStatus(500);
               }
-              sails.helpers.createGlobalTagsForEachList( { lists: lists, tags: cleanedTags } ).switch({
+              sails.helpers.createGlobalTagsForEachList( lists, cleanedTags ).switch({
                 error: function(err) { return res.serverError(err); },
                 success: function(suc) {
                   return res.send(200, { numCreatedGlobalTags: cleanedTags.length } );
