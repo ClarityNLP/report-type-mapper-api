@@ -17,6 +17,7 @@ module.exports = {
   },
 
   fn: function(inputs, exits) {
+    console.log('tags: ',inputs.tags);
     async.map(inputs.lists, function(list, mapCb) {
       async.map(inputs.tags, function(tag, mapCb2) {
         var tagObj = Object.assign({}, tag, { list: list.id, origin: 'Global' } );

@@ -49,7 +49,6 @@ module.exports.routes = {
   'post /institutes/:instituteId/lists/:listId/allSelectedAddTag': 'ListController.allSelectedAddTag',
   'post /institutes/:instituteId/lists/:listId/removeTag': 'ListController.removeTag',
   'post /institutes/:instituteId/lists/:listId/allSelectedRemoveTag': 'ListController.allSelectedRemoveTag',
-  // 'post /insitutes/:instituteId/lists/:listId/reportTypes': 'ListController.uploadReportTypes',
   'post /institutes/:instituteId/lists': 'ListController.create',
   'get /destroyLists': 'ListController.apiDestroyLists',
   'get /destroyReportTypes': 'ListController.apiDestroyReportTypes',

@@ -49,7 +49,7 @@ module.exports.datastores = {
     *                                                                          *
     ***************************************************************************/
     adapter: 'sails-postgresql',
-    url: 'postgres://sails:sails@mapper-pg:5444/report-type-mapper'
+    url: 'postgres://sails:sails@postgres:5432/report-type-mapper'
 
   },
 

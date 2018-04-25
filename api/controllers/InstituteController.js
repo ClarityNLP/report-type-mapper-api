@@ -108,7 +108,7 @@ module.exports = {
         sails.log.error(err);
         return res.send(500);
       }
-      sails.helpers.getReportTypesForLists( { lists: institute.lists } ).switch({
+      sails.helpers.getReportTypesForLists( institute.lists ).switch({
         error: function(err) { return res.serverError(err); },
         success: function(suc) {
           var reportTypes = _.flatten(suc);
