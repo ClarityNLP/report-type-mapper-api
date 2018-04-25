@@ -11,7 +11,10 @@ module.exports = function userBelongsToInstitute(req, res, next) {
     if (!user) {
       return res.send(403, {'message': 'Incorrect token.'});
     }
-    if (user.institute == req.param('instituteId')) {
+    if (!user.roles) {
+      return res.send(400, {'message': 'No user role'});
+    }
+    if (user.institute == req.param('instituteId') || (user.roles.indexOf('ROLE_ADMIN') !== -1)) {
       return next();
     }
     // Cy-an-Nara
